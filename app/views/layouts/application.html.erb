@@ -12,6 +12,15 @@
   </head>
 
   <body>
+    <div id="nav">
+    <% if current_user %>
+      <%= button_to t('defaluts.logout'), :logout, method: :post %>
+    <% else %>
+      <%= link_to t('defaults.user_new'), new_user_path %> |
+      <%= link_to t('defaults.login'), :login %>
+    <% end %>
+    </div>
+    <%= render 'shared/flash' %>
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
