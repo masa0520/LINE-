@@ -1,46 +1,24 @@
-■ サービス概要
-  英単語を覚えたい方の学習の習慣化、サポートをLINEを通じて行うサービスです。
+# README
 
-■メインのターゲットユーザー
-  英単語を覚えたい方
-  英単語学習の習慣を作りたい方
-  英語の資格などを取りたい方
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-■ユーザーが抱える課題
-  英単語を覚えるには毎日繰り返す学習する必要がある
-  単語学習を習慣にするまでが大変
-  
-■解決方法
-  1,Web上で英単語問題をユーザーがそれぞれ作成する
-  2,作成して問題をLINE連携するとLINEで定期的に通知として流れてくる
-  3,ユーザーの英単語学習を習慣化し、サポートする
+Things you may want to cover:
 
-■実装予定の機能
-・ユーザー（会員登録、ログインなし）
-   ・英単語問題一覧機能
-   ・英単語問題詳細機能
-・ユーザー（会員登録、ログインあり)
-   ・問題LINE連携機能
-   ・定期実行機能
-   ・英単語投稿,編集,削除
-   ・お気に入り機能
-   ・いいね機能
-   ・検索機能
-   ・コメント機能
-   ・学習記録
-   ・プロフィール機能（画像投稿)
-   ・フォロー機能
-   ・パスワードリセット機能
-・管理ユーザー
-　　・管理ユーザーの登録、編集、削除
-　　・投稿された英単語問題の編集、削除
+* Ruby version
 
-■なぜこのサービスを作りたいのか？
+* System dependencies
 
+* Configuration
 
- ■スケジュール
+* Database creation
 
- ■画面繊維図
+* Database initialization
 
+* How to run the test suite
 
- ■er図
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
