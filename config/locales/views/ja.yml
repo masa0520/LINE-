@@ -1,8 +1,10 @@
 ja:
   defaults:
+    title: LINEで英単語
     login: ログイン
     logout: ログアウト
     user_new: 新規登録
+    profile: プロフィール
   users:
     new:
       title: 新規登録
@@ -10,8 +12,11 @@ ja:
       success: ユーザー登録が完了しました
       failure: ユーザー登録に失敗しました
   user_sessions:
+    require_login: ログインをしてください
     new:
       title: ログイン
     create:
       success: ログインしました
       failure: ログインできませんでした
+    destroy:
+      success: ログアウトしました
