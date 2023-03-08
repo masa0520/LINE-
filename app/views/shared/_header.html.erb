@@ -1,17 +1,21 @@
-<div class="navbar bg-base-100">
+<div class="navbar bg-base-200">
   <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl">LINEで英単語</a>
+    <%= link_to t('defaults.title'), root_path, class: "btn btn-ghost normal-case text-xl" %>
   </div>
   <div class="flex-none gap-2">
     <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
-          <img src="/assets/profile.png" />%
+          <% if current_user.image.present? %>
+            <%= image_tag current_user.image %>
+          <% else %>
+            <%= image_tag 'profile.png' %>
+          <% end %>
         </div>
       </label>
       <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
         <li><%= button_to t('defaults.logout'), :logout, method: :post %></li>
-        <li><a>プロフィール</a></li>
+        <li><%= link_to t('defaults.profile'), profile_path %></li>
         <li><a>お気に入り</a></li>
         <li><a>あなたの投稿</a></li>
         <li><a>LINE連携</a></li>
