@@ -1,0 +1,2 @@
+class JapaneseWordsController < ApplicationController
+end

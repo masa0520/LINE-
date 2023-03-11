@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root  "top#top"
   resources :users
   resource :profile, only: %i[show edit update]
+  resources :english_words
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
