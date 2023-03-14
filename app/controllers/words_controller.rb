@@ -6,7 +6,7 @@ class WordsController < ApplicationController
 
   def new
     @english_word = EnglishWord.new
-    @japanese_words = JapaneseWord.new
+    @japanese_word = JapaneseWord.new
   end
   
   def create
@@ -29,7 +29,7 @@ class WordsController < ApplicationController
         @japanese_word = current_user.japanese_words.create(japanese: word)
         @english_word.japanese_words << @japanese_word
       end
-      redirect_to english_words_path
+      redirect_to words_path
     #英語が2つ以上だったら
     elsif array_english.second.present? & array_japanese.second.nil?
       #日本語を作成
@@ -39,7 +39,7 @@ class WordsController < ApplicationController
         @english_word = current_user.english_words.create(english: word)
         @japanese_word.english_words << @english_word
       end
-      redirect_to english_words_path
+      redirect_to words_path
     else
       render :new
     end
