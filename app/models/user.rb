@@ -9,4 +9,6 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
 
   has_one_attached :image
+  has_many :japanese_words
+  has_many :english_words
 end
