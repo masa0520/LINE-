@@ -1,11 +1,7 @@
 <div class="mx-auto md:w-1/2 w-full">
-  <%= form_with model: @english_word, url: words_path, class: "contents", method: :post do |form| %>
-  <%= form.text_field :english, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力" %>
-  ⇅
-  <%= fields_for @japanese_word do |f| %>
-    <%= f.text_field :japanese, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力" %>
-  <% end %>
-
+  <%= form_with model: [@english_word, @japanese_word], url: words_path, class: "contents", method: :post do |form| %>
+  <%= form.text_field :english, name: 'english_word[english]',  class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力" %>
+  <%= form.text_field :japanese, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力" %>
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer my-5" %>
   </div>

@@ -19,9 +19,8 @@ class WordsController < ApplicationController
     input_japanese = params[:japanese_word][:japanese]
     #スペースで区切った日本語を配列に格納
     array_japanese = input_japanese.split(/[[:space:]]/)
-    
-    #英語が一つだったら
-    if array_english.second.nil?
+    #英語が一つで日本語が2つ以上だったら
+    if array_english.length == 1 && array_japanese.length >= 2
       #英語を作成
       @english_word = current_user.english_words.create(english_word_params)
       #eaachで日本語を一つずつ取り出し作成,英語と結びつけて中間テーブルに保存
@@ -30,8 +29,8 @@ class WordsController < ApplicationController
         @english_word.japanese_words << @japanese_word
       end
       redirect_to words_path
-    #英語が2つ以上だったら
-    elsif array_english.second.present? & array_japanese.second.nil?
+    #日本語が１つで英語が2つ以上だったら
+    elsif array_english.length >= 2 && array_japanese.length == 1
       #日本語を作成
       @japanese_word = current_user.japanese_words.create(japanese_word_params)
       #eaachで英語を一つずつ取り出し作成,日本語と結びつけて中間テーブルに保存
@@ -39,6 +38,12 @@ class WordsController < ApplicationController
         @english_word = current_user.english_words.create(english: word)
         @japanese_word.english_words << @english_word
       end
+      redirect_to words_path
+    #英語が1つで日本語も１つだったら
+    elsif array_english.length && array_japanese.length == 1
+      @english_word = current_user.english_words.create(english_word_params)
+      @japanese_word = current_user.japanese_words.create(japanese_word_params)
+      @english_word.japanese_words << @japanese_word
       redirect_to words_path
     else
       render :new
