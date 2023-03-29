@@ -11,4 +11,5 @@ class User < ApplicationRecord
   has_one_attached :image
   has_many :japanese_words
   has_many :english_words
+  has_many :posts
 end

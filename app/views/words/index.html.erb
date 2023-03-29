@@ -1,9 +1,4 @@
-<% @english_words.each do |english| %>
-  <%= english.english %>
-  <%= english.id %>
-<% end %>
-
-<% @japanese_words.each do |japanese| %>
-  <%= japanese.japanese %>
-  <%= japanese.id %>
+<% @words.each do |word| %>
+  <%= word.english_word.english %>⇄
+  <%= word.japanese_word.japanese %>
 <% end %>

@@ -20,3 +20,7 @@ ja:
       failure: ログインできませんでした
     destroy:
       success: ログアウトしました
+  posts:
+    new:
+      title: 単語リスト作成
+      submit: 作成する

@@ -1,7 +1,6 @@
 class WordsController < ApplicationController
   def index
-    @english_words = EnglishWord.all
-    @japanese_words = JapaneseWord.all
+    @words = Word.all
   end
 
   def new
@@ -32,26 +31,25 @@ class WordsController < ApplicationController
       next if english.empty? && japanese.present?
       #日本語がnilで英語があったら
       next if japanese.empty? && english.present?
-      
       #英語が一つで日本語が2つ以上だったら
       if english.length == 1 && japanese.length >= 2
-        english_word = current_user.english_words.create(english: english[0])
+        @english_word = current_user.english_words.create(english: english[0])
         japanese.each do |word|
-          japanese_word = current_user.japanese_words.create(japanese: word)
-          english_word.japanese_words << japanese_word
+          @japanese_word = current_user.japanese_words.create(japanese: word)
+          @english_word.japanese_words << @japanese_word
         end
       #日本語が１つで英語が2つ以上だったら
       elsif japanese.length == 1 && english.length >= 2
-        japanese_word = current_user.japanese_words.create(japanese: japanese[0])
+        @japanese_word = current_user.japanese_words.create(japanese: japanese[0])
         english.each do |word|
-          english_word = current_user.english_words.create(english: word)
-          japanese_word.english_words << english_word
+          @english_word = current_user.english_words.create(english: word)
+          @japanese_word.english_words << @english_word
         end
       #英語が1つで日本語も１つだったら
       else english.length == 1 && japanese.length == 1
-        english_word = current_user.english_words.create(english: english[0])
-        japanese_word = current_user.japanese_words.create(japanese: japanese[0])
-        english_word.japanese_words << japanese_word
+        @english_word = current_user.english_words.create(english: english[0])
+        @japanese_word = current_user.japanese_words.create(japanese: japanese[0])
+        @english_word.japanese_words << @japanese_word
       end
     end
     redirect_to words_path
