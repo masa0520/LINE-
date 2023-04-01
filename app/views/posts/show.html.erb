@@ -1,22 +1,71 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="text-xl"><%= @post.title %></h1>
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>英語</th>
+          <th>日本語</th>
+          <th>覚えた?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row -->
+        <% @words.each do |word| %>
+          <% if word.english_word.japanese_words.second.nil? && word.japanese_word.english_words.second.nil? %>
+            <tr>
+              <th></th>
+              <td>
+                <% word.japanese_word.english_words.each do |en| %>
+                  <%= en.english %>
+                <% end %>
+              </td>
+              <td>
+                <% word.english_word.japanese_words.each do |jp| %>
+                  <%= jp.japanese %>
+                <% end %>
+              </td>
+              <td></td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% @english_words.each_with_index do |en, index| %>
+          <% if en.japanese_words.second.present? %>
+            <tr>
+              <th></th>
+              <td><%= en.english %></td>
+              <td>
+                <% en.japanese_words.each do |jp| %>
+                  <%= jp.japanese %>
+                <% end %>
+              </td>
+              <td></td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% @japanese_words.each_with_index do |jp, index| %>
+          <% if jp.english_words.second.present? %>
+            <tr>
+              <th></th>
+              <td>
+                <% jp.english_words.each do |en| %>
+                  <%= en.english %>
+                <% end %>
+              </td>
+              <td><%= jp.japanese %></td>
+              <td></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class= "flex">
+    <%= link_to t('defaults.index'), posts_path, class: "btn btn-primary mx-2" %>
+    <% if current_user.id == @post.user_id %>
+      <%= button_to t('defaults.destroy'), post_path(@post), method: :delete, data: { turbo_confirm: '本当に削除しますか？' }, class: 'btn btn-primary' %>
     <% end %>
-
-    <p class="my-5">
-      <strong class="block font-medium mb-1">Title:</strong>
-      <%= @post.title %>
-      <% @words.each do |word| %>
-        <%= word.english_word.english %>⇄
-        <%= word.japanese_word.japanese %>
-      <% end %>
-    </p>
-
-    <%= link_to 'Edit this post', edit_post_path(@post), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to 'Destroy this post', post_path(@post), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
-    </div>
-    <%= link_to 'Back to posts', posts_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
 </div>

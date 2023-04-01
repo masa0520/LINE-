@@ -9,6 +9,8 @@ class PostsController < ApplicationController
   # GET /posts/1
   def show
     @words = Word.where(post_id: @post.id)
+    @english_words = EnglishWord.where(post_id: @post.id)
+    @japanese_words = JapaneseWord.where(post_id: @post.id)
   end
 
   # GET /posts/new
@@ -50,22 +52,22 @@ class PostsController < ApplicationController
         next if japanese.empty? && english.present?
         #英語が一つで日本語が2つ以上だったら
         if english.length == 1 && japanese.length >= 2
-          @english_word = current_user.english_words.create(english: english[0])
+          @english_word = current_user.english_words.create(english: english[0], post_id: @post.id)
           japanese.each do |word|
-            @japanese_word = current_user.japanese_words.create(japanese: word)
+            @japanese_word = current_user.japanese_words.create(japanese: word, post_id: @post.id)
             @word = Word.create(english_word_id: @english_word.id, japanese_word_id: @japanese_word.id, post_id: @post.id)
           end
         #日本語が１つで英語が2つ以上だったら
         elsif japanese.length == 1 && english.length >= 2
-          @japanese_word = current_user.japanese_words.create(japanese: japanese[0])
+          @japanese_word = current_user.japanese_words.create(japanese: japanese[0], post_id: @post.id)
           english.each do |word|
-            @english_word = current_user.english_words.create(english: word)
+            @english_word = current_user.english_words.create(english: word, post_id: @post.id)
             @word = Word.create(english_word_id: @english_word.id, japanese_word_id: @japanese_word.id, post_id: @post.id)
           end
         #英語が1つで日本語も１つだったら
         else english.length == 1 && japanese.length == 1
-          @english_word = current_user.english_words.create(english: english[0])
-          @japanese_word = current_user.japanese_words.create(japanese: japanese[0])
+          @english_word = current_user.english_words.create(english: english[0], post_id: @post.id)
+          @japanese_word = current_user.japanese_words.create(japanese: japanese[0], post_id: @post.id)
           @word = Word.create(english_word_id: @english_word.id, japanese_word_id: @japanese_word.id, post_id: @post.id)
         end
       end
