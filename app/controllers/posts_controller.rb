@@ -73,8 +73,9 @@ class PostsController < ApplicationController
           @word = Word.create(english_word_id: @english_word.id, japanese_word_id: @japanese_word.id, post_id: @post.id)
         end
       end
-      redirect_to posts_url, notice: "Post was successfully created"
+      redirect_to posts_url, notice: t('posts.create.success')
     else
+      flash.now[:alert] = t('posts.create.failure')
       render :new, status: :unprocessable_entity
     end
   end
@@ -129,8 +130,9 @@ class PostsController < ApplicationController
           @word = Word.create(english_word_id: @english_word.id, japanese_word_id: @japanese_word.id, post_id: @post.id)
         end
       end
-      redirect_to @post, notice: "Post was successfully updated."
+      redirect_to @post, notice: t('posts.update.success')
     else
+      flash.now[:alert] = t('posts.update.failure')
       render :edit, status: :unprocessable_entity
     end
   end
@@ -138,7 +140,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
-    redirect_to posts_url, notice: "Post was successfully destroyed."
+    redirect_to posts_url, notice: t('posts.destroy.success')
   end
 
   private
