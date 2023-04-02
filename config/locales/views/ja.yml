@@ -7,6 +7,7 @@ ja:
     profile: プロフィール
     destroy: 削除
     index: 投稿一覧
+    edit: 編集
   users:
     new:
       title: 新規登録
@@ -26,3 +27,6 @@ ja:
     new:
       title: 単語リスト作成
       submit: 作成する
+    edit:
+      title: 単語編集
+      submit: 更新する

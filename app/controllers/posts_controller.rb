@@ -22,13 +22,15 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    @words = Word.where(post_id: @post.id)
+    @english_words = EnglishWord.where(post_id: @post.id)
+    @japanese_words = JapaneseWord.where(post_id: @post.id)
   end
 
   # POST /posts
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      #@english_word = current_user.english_words.create(english_word_params.merge(post_id: @post.id))
       array_english = []
       array_japanese = []
       10.times do |i|
@@ -79,7 +81,54 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    if @post.update(post_params)
+    if @post.save
+      # 既存の単語をすべて削除
+      @post.words.destroy_all
+      @post.english_words.destroy_all
+      @post.japanese_words.destroy_all
+      array_english = []
+      array_japanese = []
+      #20timesにした理由はedit.erbでeach_with_indexのループ変数がうまく渡せず飛んでしまうため仮の対処
+      20.times do |i|
+        #英語のパラメーターを取得
+        input_english = params[:english][i.to_s]
+        #スペースで区切った英語を配列に格納
+        array_english << input_english.split(/[[:space:]]/) if input_english.present?
+        #日本語のパラメーターを取得
+        input_japanese = params[:japanese][i.to_s]
+        #スペースで区切った日本語を配列に格納
+        array_japanese << input_japanese.split(/[[:space:]]/) if input_japanese.present?
+      end
+      array_english.zip(array_japanese).each do |english, japanese|
+        #両方nilだったら
+        next if english.empty? && japanese.empty?
+        #両方2つ以上の意味を持っていたら
+        next if english.length >= 2 && japanese.length >= 2
+        #英語がnilで日本語があったら
+        next if english.empty? && japanese.present?
+        #日本語がnilで英語があったら
+        next if japanese.empty? && english.present?
+        #英語が一つで日本語が2つ以上だったら
+        if english.length == 1 && japanese.length >= 2
+          @english_word = current_user.english_words.create(english: english[0], post_id: @post.id)
+          japanese.each do |word|
+            @japanese_word = current_user.japanese_words.create(japanese: word, post_id: @post.id)
+            @word = Word.create(english_word_id: @english_word.id, japanese_word_id: @japanese_word.id, post_id: @post.id)
+          end
+        #日本語が１つで英語が2つ以上だったら
+        elsif japanese.length == 1 && english.length >= 2
+          @japanese_word = current_user.japanese_words.create(japanese: japanese[0], post_id: @post.id)
+          english.each do |word|
+            @english_word = current_user.english_words.create(english: word, post_id: @post.id)
+            @word = Word.create(english_word_id: @english_word.id, japanese_word_id: @japanese_word.id, post_id: @post.id)
+          end
+        #英語が1つで日本語も１つだったら
+        else english.length == 1 && japanese.length == 1
+          @english_word = current_user.english_words.create(english: english[0], post_id: @post.id)
+          @japanese_word = current_user.japanese_words.create(japanese: japanese[0], post_id: @post.id)
+          @word = Word.create(english_word_id: @english_word.id, japanese_word_id: @japanese_word.id, post_id: @post.id)
+        end
+      end
       redirect_to @post, notice: "Post was successfully updated."
     else
       render :edit, status: :unprocessable_entity
@@ -103,11 +152,11 @@ class PostsController < ApplicationController
       params.require(:post).permit(:title, :user_id)
     end
 
-    #def english_word_params
-    #  params.require(:english_word).permit(:english, :user_id)
-    #end 
-#
-    #def japanese_word_params
-    #  params.require(:japanese_word).permit(:japanese, :user_id)
-    #end
+    def english_word_params
+      params.require(:english_word).permit(:english, :user_id, :post_id)
+    end 
+
+    def japanese_word_params
+      params.require(:japanese_word).permit(:japanese, :user_id, :post_id)
+    end
 end

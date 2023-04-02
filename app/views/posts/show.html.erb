@@ -31,7 +31,7 @@
             </tr>
           <% end %>
         <% end %>
-        <% @english_words.each_with_index do |en, index| %>
+        <% @english_words.each do |en| %>
           <% if en.japanese_words.second.present? %>
             <tr>
               <th></th>
@@ -45,7 +45,7 @@
             </tr>
           <% end %>
         <% end %>
-        <% @japanese_words.each_with_index do |jp, index| %>
+        <% @japanese_words.each do |jp| %>
           <% if jp.english_words.second.present? %>
             <tr>
               <th></th>
@@ -66,6 +66,7 @@
     <%= link_to t('defaults.index'), posts_path, class: "btn btn-primary mx-2" %>
     <% if current_user.id == @post.user_id %>
       <%= button_to t('defaults.destroy'), post_path(@post), method: :delete, data: { turbo_confirm: '本当に削除しますか？' }, class: 'btn btn-primary' %>
+      <%= link_to t('defaults.edit'), edit_post_path(@post), class: "btn btn-primary mx-2" %>
     <% end %>
   </div>
 </div>
