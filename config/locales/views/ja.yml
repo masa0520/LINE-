@@ -6,7 +6,9 @@ ja:
     user_new: 新規登録
     profile: プロフィール
     destroy: 削除
-    index: 投稿一覧
+    index: 英単語リスト一覧
+    my-posts: あなたの英単語リスト
+    new: 英単語作成
     edit: 編集
   users:
     new:

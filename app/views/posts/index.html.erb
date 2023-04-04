@@ -1,14 +1,9 @@
-<div class="w-full">
+<div class="mx-auto md:w-2/3 w-full">
 
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Posts</h1>
-    <%= link_to 'New post', new_post_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
-  </div>
+<h1 class="font-bold text-4xl my-4"><%= t('defaults.index') %></h1>
 
-  <% @posts.each do |post| %>
-    <%= post.title %>
-    <%= link_to "show", post_path(post) %>
-  <% end %>
-  
+<div class="grid grid-cols-2 gap-4">
+  <%= render 'posts', posts: @posts %>
+</div>
   
 </div>

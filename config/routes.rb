@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :posts
+  get '/my_posts', to: 'posts#my_posts'
   get 'login' => 'user_sessions#new', :as => :login
   post 'login' => "user_sessions#create"
   post 'logout' => 'user_sessions#destroy', :as => :logout

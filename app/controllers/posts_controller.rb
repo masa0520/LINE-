@@ -143,6 +143,10 @@ class PostsController < ApplicationController
     redirect_to posts_url, notice: t('posts.destroy.success')
   end
 
+  def my_posts
+    @my_posts = Post.where(user_id: current_user.id)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
