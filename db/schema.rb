@@ -81,7 +81,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_30_103858) do
   end
 
   create_table "words", force: :cascade do |t|
-    t.string "title"
     t.bigint "english_word_id", null: false
     t.bigint "japanese_word_id", null: false
     t.datetime "created_at", null: false
