@@ -17,10 +17,11 @@
         <li><%= button_to t('defaults.logout'), :logout, method: :post %></li>
         <li><%= link_to t('defaults.profile'), profile_path %></li>
         <li><a>お気に入り</a></li>
-        <li><a>あなたの投稿</a></li>
+        <li><%= link_to t('defaults.my-posts'), my_posts_path %></li>
+        <li><%= link_to t('defaults.index'), posts_path(@posts) %>
         <li><a>LINE連携</a></li>
         <li><a>学習記録</a></li>
-        <li><a>単語作成</a></li>
+        <li><%= link_to t('defaults.new'), new_post_path %></li>
       </ul>
     </div>
   </div>

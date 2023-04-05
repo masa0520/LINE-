@@ -1,0 +1,20 @@
+<%= form_with(model: [post, english_word, japanese_word], url: posts_path, class: "contents") do |form| %>
+
+  <div class="my-5">
+    <%= form.text_field :title, name: "post[title]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder: "タイトルを入力", required: true %>
+    <p class="mt-3">※単語の組み合わせを最低一つ入力してください</p>
+    <p class="mt-3">※どちらがが複数の意味を持つ場合はスペースを使用して入力します(例: book ⇄ 本 予約する)</p>
+    <% 10.times do |i| %>
+    <div class="flex">
+      <p><%= "#{i + 1}" %></p>
+      <%= form.text_field :english, name: "english[#{i}]",  class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力", required: i.zero? %>
+      <p>⇄</p>
+      <%= form.text_field :japanese, name: "japanese[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力", required: i.zero? %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit t('posts.new.submit'), class: "btn btn-primary" %>
+  </div>
+<% end %>

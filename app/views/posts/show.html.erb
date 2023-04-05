@@ -1,0 +1,72 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-xl"><%= @post.title %></h1>
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>英語</th>
+          <th>日本語</th>
+          <th>覚えた?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row -->
+        <% @words.each do |word| %>
+          <% if word.english_word.japanese_words.second.nil? && word.japanese_word.english_words.second.nil? %>
+            <tr>
+              <th></th>
+              <td>
+                <% word.japanese_word.english_words.each do |en| %>
+                  <%= en.english %>
+                <% end %>
+              </td>
+              <td>
+                <% word.english_word.japanese_words.each do |jp| %>
+                  <%= jp.japanese %>
+                <% end %>
+              </td>
+              <td></td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% @english_words.each do |en| %>
+          <% if en.japanese_words.second.present? %>
+            <tr>
+              <th></th>
+              <td><%= en.english %></td>
+              <td>
+                <% en.japanese_words.each do |jp| %>
+                  <%= jp.japanese %>
+                <% end %>
+              </td>
+              <td></td>
+            </tr>
+          <% end %>
+        <% end %>
+        <% @japanese_words.each do |jp| %>
+          <% if jp.english_words.second.present? %>
+            <tr>
+              <th></th>
+              <td>
+                <% jp.english_words.each do |en| %>
+                  <%= en.english %>
+                <% end %>
+              </td>
+              <td><%= jp.japanese %></td>
+              <td></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class= "flex">
+    <%= link_to t('defaults.index'), posts_path, class: "btn btn-primary mx-2" %>
+    <% if current_user.id == @post.user_id %>
+      <%= button_to t('defaults.destroy'), post_path(@post), method: :delete, data: { turbo_confirm: '本当に削除しますか？' }, class: 'btn btn-primary' %>
+      <%= link_to t('defaults.edit'), edit_post_path(@post), class: "btn btn-primary mx-2" %>
+    <% end %>
+  </div>
+</div>

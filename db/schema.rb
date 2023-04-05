@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_08_162604) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_30_103858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_162604) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_english_words_on_post_id"
     t.index ["user_id"], name: "index_english_words_on_user_id"
   end
 
@@ -55,7 +57,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_162604) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_japanese_words_on_post_id"
     t.index ["user_id"], name: "index_japanese_words_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -69,19 +81,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_162604) do
   end
 
   create_table "words", force: :cascade do |t|
-    t.string "title"
     t.bigint "english_word_id", null: false
     t.bigint "japanese_word_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "post_id"
     t.index ["english_word_id"], name: "index_words_on_english_word_id"
     t.index ["japanese_word_id"], name: "index_words_on_japanese_word_id"
+    t.index ["post_id"], name: "index_words_on_post_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "english_words", "posts"
   add_foreign_key "english_words", "users"
+  add_foreign_key "japanese_words", "posts"
   add_foreign_key "japanese_words", "users"
+  add_foreign_key "posts", "users"
   add_foreign_key "words", "english_words"
   add_foreign_key "words", "japanese_words"
+  add_foreign_key "words", "posts"
 end
