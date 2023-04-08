@@ -32,34 +32,21 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
 
     if @post.title.present?
-      array_english = []
-      array_japanese = []
       10.times do |i|
-        #英語のパラメーターを取得
-        input_english = params[:english][i.to_s]
-        #スペースで区切った英語を配列に格納
-        array_english << input_english.split(/[[:space:]]/)
-        #日本語のパラメーターを取得
-        input_japanese = params[:japanese][i.to_s]
-        #スペースで区切った日本語を配列に格納
-        array_japanese << input_japanese.split(/[[:space:]]/)
-      end
-      i = 0
-      while i < 10
+        input_english = params[:english][i.to_s].split(/[[:space:]]/) if params[:english][i.to_s].present?
+        input_japanese = params[:japanese][i.to_s].split(/[[:space:]]/) if params[:japanese][i.to_s].present?
         #英語と日本語がともに存在し、かつ両方の要素が複数でなく、片方が複数である可能性を含む場合に処理を実行
-        if array_english[i].present? && array_japanese[i].present? && !(array_english[i].length >= 2 && array_japanese[i].length >= 2)
-          @post.save unless @post.persisted?
-          array_english[i].each do |en|
-            english_word = current_user.english_words.find_or_create_by(english: en, post_id: @post.id)
-            array_japanese[i].each do |jp|
-              japanese_word = current_user.japanese_words.find_or_create_by(japanese: jp, post_id: @post.id)
-              Word.find_or_create_by(english_word_id: english_word.id, japanese_word_id: japanese_word.id, post_id: @post.id)
-            end
+        if input_english.present? && input_japanese.present? && !(input_english.length >= 2 && input_japanese.length >= 2)
+         @post.save unless @post.persisted?
+         input_english.each do |en|
+           english_word = current_user.english_words.find_or_create_by(english: en, post_id: @post.id)
+           input_japanese.each do |jp|
+             japanese_word = current_user.japanese_words.find_or_create_by(japanese: jp, post_id: @post.id)
+             Word.find_or_create_by(english_word_id: english_word.id, japanese_word_id: japanese_word.id, post_id: @post.id)
+           end
           end
         end
-        i += 1
       end
-
       if @post.persisted?
         redirect_to @post, notice: t('posts.update.success') if @post.persisted?
       else#この処理は@post.titleは存在するが他がnilの場合
