@@ -67,43 +67,42 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
-    if @post.save
-      # 既存の単語をすべて削除
-      @post.words.destroy_all
-      @post.english_words.destroy_all
-      @post.japanese_words.destroy_all
-      if @post.title.present?
-        10.times do |i|
-          input_english = params[:english][i.to_s].split(/[[:space:]]/) if params[:english][i.to_s].present?
-          input_japanese = params[:japanese][i.to_s].split(/[[:space:]]/) if params[:japanese][i.to_s].present?
-          #英語と日本語がともに存在し、かつ両方の要素が複数でなく、片方が複数である可能性を含む場合に処理を実行
-          if input_english.present? && input_japanese.present? && !(input_english.length >= 2 && input_japanese.length >= 2)
-           @post.save unless @post.persisted?
-           input_english.each do |en|
-             english_word = current_user.english_words.find_or_create_by(english: en, post_id: @post.id)
-             input_japanese.each do |jp|
-               japanese_word = current_user.japanese_words.find_or_create_by(japanese: jp, post_id: @post.id)
-               Word.find_or_create_by(english_word_id: english_word.id, japanese_word_id: japanese_word.id, post_id: @post.id)
-             end
-            end
+    # 既存の単語をすべて削除
+    @post.words.destroy_all
+    @post.english_words.destroy_all
+    @post.japanese_words.destroy_all
+    if @post.title.present?
+      10.times do |i|
+        input_english = params[:english][i.to_s].split(/[[:space:]]/) if params[:english][i.to_s].present?
+        input_japanese = params[:japanese][i.to_s].split(/[[:space:]]/) if params[:japanese][i.to_s].present?
+        #英語と日本語がともに存在し、かつ両方の要素が複数でなく、片方が複数である可能性を含む場合に処理を実行
+        if input_english.present? && input_japanese.present? && !(input_english.length >= 2 && input_japanese.length >= 2)
+         @post.save unless @post.persisted?
+         input_english.each do |en|
+           english_word = current_user.english_words.find_or_create_by(english: en, post_id: @post.id)
+           input_japanese.each do |jp|
+             japanese_word = current_user.japanese_words.find_or_create_by(japanese: jp, post_id: @post.id)
+             Word.find_or_create_by(english_word_id: english_word.id, japanese_word_id: japanese_word.id, post_id: @post.id)
+           end
           end
         end
-        if @post.persisted?
-          redirect_to @post, notice: t('posts.update.success') if @post.persisted?
-        else#この処理は@post.titleは存在するが他がnilの場合
-          @post = Post.new
-          @english_word = EnglishWord.new
-          @japanese_word = JapaneseWord.new
-          flash.now[:alert] = t('posts.create.failure')
-          render :new, status: :unprocessable_entity
-        end
-      else
+      end
+      if @post.persisted?
+        redirect_to @post, notice: t('posts.update.success') if @post.persisted?
+      else#この処理は@post.titleは存在するが他がnilの場合
         @post = Post.new
         @english_word = EnglishWord.new
         @japanese_word = JapaneseWord.new
-        flash.now[:alert] = t('posts.create.failure')
+        flash.now[:alert] = t('posts.update.failure')
         render :new, status: :unprocessable_entity
       end
+    else
+      @post = Post.new
+      @english_word = EnglishWord.new
+      @japanese_word = JapaneseWord.new
+      flash.now[:alert] = t('posts.update.failure')
+      render :new, status: :unprocessable_entity
+    end
   end
 
   # DELETE /posts/1
