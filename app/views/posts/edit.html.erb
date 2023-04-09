@@ -8,39 +8,74 @@
       <p class="mt-3">※単語の組み合わせを最低一つ入力してください</p>
       <p class="mt-3">※どちらがが複数の意味を持つ場合はスペースを使用して入力します(例: book ⇄ 本 予約する)</p>
 
-      <% @words.each_with_index do |word, i| %>
-        <% if word.english_word.japanese_words.second.nil? && word.japanese_word.english_words.second.nil? %>
-          <div class="flex">
-            <% en_value = word.english_word.english %>
-            <% jp_value = word.japanese_word.japanese %>
-            <%= form.text_field :english, value: en_value, name: "english[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力" %>
-            <p>⇄</p>
-            <%= form.text_field :japanese, value: jp_value, name: "japanese[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力" %>
-          </div>
+        <%  i = 0 %>
+        <% @words.each do |word| %>
+          <% if word.english_word.japanese_words.second.nil? && word.japanese_word.english_words.second.nil? %>
+            <div class="flex">
+              <p><%= "#{i + 1}" %></p>
+              <% en_value = word.english_word.english %>
+              <% jp_value = word.japanese_word.japanese %>
+              <% if i.zero? %>
+                <span class="text-red-500 mb-0">*</span>
+              <% end %>
+              <%= form.text_field :english, value: en_value, name: "english[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力", required: i.zero? %>
+              <p>⇄</p>
+              <% if i.zero? %>
+                <span class="text-red-500 mb-0">*</span>
+              <% end %>
+              <%= form.text_field :japanese, value: jp_value, name: "japanese[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力", required: i.zero? %>
+            </div>
+            <% i += 1 %>
+          <% end %>
         <% end %>
-      <% end %>
-      <% @english_words.each_with_index do |en, i| %>
-        <% if en.japanese_words.second.present? %>
-          <div class="flex">
-            <% en_value = en.english %>
-            <% jp_values = en.japanese_words.map(&:japanese).join(' ') %>
-            <%= form.text_field :english, value: en_value, name: "english[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力" %>
-            <p>⇄</p>
-            <%= form.text_field :japanese, value: jp_values, name: "japanese[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力" %>
-          </div>
+        <% @english_words.each do |en| %>
+          <% if en.japanese_words.second.present? %>
+            <div class="flex">
+              <p><%= "#{i + 1}" %></p>
+              <% en_value = en.english %>
+              <% jp_values = en.japanese_words.map(&:japanese).join(' ') %>
+              <% if i.zero? %>
+                <span class="text-red-500 mb-0">*</span>
+              <% end %>
+              <%= form.text_field :english, value: en_value, name: "english[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力", required: i.zero? %>
+              <p>⇄</p>
+              <% if i.zero? %>
+                <span class="text-red-500 mb-0">*</span>
+              <% end %>
+              <%= form.text_field :japanese, value: jp_values, name: "japanese[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力", required: i.zero? %>
+            </div>
+            <% i += 1 %>
+          <% end %>
         <% end %>
-      <% end %>
-      <% @japanese_words.each_with_index do |jp, i| %>
-        <% if jp.english_words.second.present? %>
-          <div class="flex">
-            <% en_values = jp.english_words.map(&:english).join(' ') %>
-            <% jp_value = jp.japanese %>
-            <%= form.text_field :english, value: en_values, name: "english[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力" %>
-            <p>⇄</p>
-            <%= form.text_field :japanese, value: jp_value, name: "japanese[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力" %>
-          </div>
+        <% @japanese_words.each do |jp| %>
+          <% if jp.english_words.second.present? %>
+            <div class="flex">
+              <p><%= "#{i + 1}" %></p>
+              <% en_values = jp.english_words.map(&:english).join(' ') %>
+              <% jp_value = jp.japanese %>
+              <% if i.zero? %>
+                <span class="text-red-500 mb-0">*</span>
+              <% end %>
+              <%= form.text_field :english, value: en_values, name: "english[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力" %>
+              <p>⇄</p>
+              <% if i.zero? %>
+                <span class="text-red-500 mb-0">*</span>
+              <% end %>
+              <%= form.text_field :japanese, value: jp_value, name: "japanese[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力" %>
+            </div>
+            <% i += 1 %>
+          <% end %>
         <% end %>
-      <% end %>
+
+        <% while i < 10 do %>
+          <div class="flex">
+            <p><%= "#{i + 1}" %></p>
+            <%= form.text_field :english, name: "english[#{i}]",  class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"英語を入力" %>
+            <P>⇄</p>
+            <%= form.text_field :japanese, name: "japanese[#{i}]", class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", placeholder:"日本語を入力" %>
+          </div>
+          <% i += 1 %>
+        <% end %>
     </div>
 
     <div class="inline">
