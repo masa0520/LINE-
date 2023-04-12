@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :posts
+  resources :posts do
+    resource :bookmarks, only: %i[create destroy]
+    collection do
+      get :bookmarks
+    end
+  end
   get '/my_posts', to: 'posts#my_posts'
   get 'login' => 'user_sessions#new', :as => :login
   post 'login' => "user_sessions#create"
