@@ -115,6 +115,10 @@ class PostsController < ApplicationController
     @my_posts = Post.where(user_id: current_user.id)
   end
 
+  def bookmarks
+    @bookmark_posts = current_user.bookmark_posts
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post

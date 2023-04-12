@@ -12,4 +12,11 @@ class User < ApplicationRecord
   has_many :japanese_words
   has_many :english_words
   has_many :posts
+  has_many :bookmarks, dependent: :destroy
+  #user.bookmarks.map(&:post)と同義
+  has_many :bookmark_posts, through: :bookmarks, source: :post
+  
+  def bookmark?(post)
+    bookmark_posts.include?(post)
+  end
 end
