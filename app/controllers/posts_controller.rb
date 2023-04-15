@@ -30,7 +30,6 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = current_user.posts.build(post_params)
-
     if @post.title.present?
       10.times do |i|
         input_english = params[:english][i.to_s].split(/[[:space:]]/) if params[:english][i.to_s].present?
@@ -77,7 +76,7 @@ class PostsController < ApplicationController
         input_japanese = params[:japanese][i.to_s].split(/[[:space:]]/) if params[:japanese][i.to_s].present?
         #英語と日本語がともに存在し、かつ両方の要素が複数でなく、片方が複数である可能性を含む場合に処理を実行
         if input_english.present? && input_japanese.present? && !(input_english.length >= 2 && input_japanese.length >= 2)
-         @post.save unless @post.persisted?
+         @post.update(post_params) unless @post.changed?
          input_english.each do |en|
            english_word = current_user.english_words.find_or_create_by(english: en, post_id: @post.id)
            input_japanese.each do |jp|
@@ -127,7 +126,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :user_id)
+      params.require(:post).permit(:title, :user_id, :genre_id)
     end
 
     def english_word_params
