@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_09_144618) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_14_113159) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,6 +67,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_144618) do
     t.index ["user_id"], name: "index_english_words_on_user_id"
   end
 
+  create_table "genres", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_genres_on_name", unique: true
+  end
+
   create_table "japanese_words", force: :cascade do |t|
     t.string "japanese"
     t.bigint "user_id", null: false
@@ -82,6 +89,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_144618) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "genre_id", null: false
+    t.index ["genre_id"], name: "index_posts_on_genre_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -114,6 +123,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_144618) do
   add_foreign_key "english_words", "users"
   add_foreign_key "japanese_words", "posts"
   add_foreign_key "japanese_words", "users"
+  add_foreign_key "posts", "genres"
   add_foreign_key "posts", "users"
   add_foreign_key "words", "english_words"
   add_foreign_key "words", "japanese_words"
