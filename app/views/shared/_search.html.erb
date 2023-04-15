@@ -1,0 +1,4 @@
+<%= search_form_for q, url: url do |f| %>
+  <%= f.collection_select :genre_id_eq, Genre.all, :id, :name, { include_blank: '全てのジャンル', prompt: "ジャンルで検索" }, { class: 'shadow rounded-md border border-gray-200 outline-none' } %>
+  <%= f.submit class:"btn btn-ghost btn-circle" %>
+<% end %>

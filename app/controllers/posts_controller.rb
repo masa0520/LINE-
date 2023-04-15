@@ -1,9 +1,10 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_search, only: %I[ index my_posts ]
 
   # GET /posts
   def index
-    @posts = Post.all
+    @posts = @q.result.order(created_at: :desc)
   end
 
   # GET /posts/1
@@ -111,11 +112,12 @@ class PostsController < ApplicationController
   end
 
   def my_posts
-    @my_posts = Post.where(user_id: current_user.id)
+    @my_posts = @q.result.where(user_id: current_user.id).order(created_at: :desc)
   end
 
   def bookmarks
-    @bookmark_posts = current_user.bookmark_posts
+    @q = current_user.bookmark_posts.ransack(params[:q])
+    @bookmark_posts = @q.result.order(created_at: :desc)
   end
 
   private
@@ -135,5 +137,9 @@ class PostsController < ApplicationController
 
     def japanese_word_params
       params.require(:japanese_word).permit(:japanese, :user_id, :post_id)
+    end
+
+    def set_search
+      @q = Post.ransack(params[:q])
     end
 end
