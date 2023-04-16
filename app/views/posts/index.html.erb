@@ -1,9 +1,13 @@
 <div class="mx-auto md:w-2/3 w-full">
-
-<h1 class="font-bold text-4xl my-4"><%= t('defaults.index') %></h1>
-
-<div class="grid grid-cols-2 gap-4">
-  <%= render 'posts', posts: @posts %>
-</div>
+  <div class="flex my-5">
+    <h1 class="font-bold text-4xl"><%= t('defaults.index') %></h1>
+    <div class="ml-auto">
+      <%= render 'shared/search', q: @q, url: posts_path %>
+    </div>
+  </div>
   
+  <div class="grid grid-cols-2 gap-4">
+    <%= render 'posts', posts: @posts %>
+  </div>
+
 </div>
