@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :posts do
     resource :bookmarks, only: %i[create destroy]
     get 'bookmarks', on: :collection
+    resource :word_memories, only: %i[create destroy]
   end
   resources :users
   resource :profile, only: %i[show edit update]
