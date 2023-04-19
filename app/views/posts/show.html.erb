@@ -18,7 +18,7 @@
       </thead>
       <tbody>
         <!-- row -->
-        <% @words.each do |word| %>
+         <% @words.each do |word| %>
           <% if word.english_word.japanese_words.second.nil? && word.japanese_word.english_words.second.nil? %>
             <tr>
               <th></th>
@@ -32,7 +32,9 @@
                   <%= jp.japanese %>
                 <% end %>
               </td>
-              <td></td>
+              <td>
+                <%= render 'word_memories/wo_memory', wo: word.id  %>
+              </td>
             </tr>
           <% end %>
         <% end %>
@@ -46,8 +48,10 @@
                   <%= jp.japanese %>
                 <% end %>
               </td>
-              <td></td>
-            </tr>
+              <td>
+                <%= render 'word_memories/en_memory', en: en.id  %>
+              </td>
+              </tr>
           <% end %>
         <% end %>
         <% @japanese_words.each do |jp| %>
@@ -60,7 +64,9 @@
                 <% end %>
               </td>
               <td><%= jp.japanese %></td>
-              <td></td>
+              <td>
+                <%= render 'word_memories/jp_memory', jp: jp.id  %>
+              </td>
             </tr>
           <% end %>
         <% end %>

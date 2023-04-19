@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_14_113159) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_16_035658) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -104,6 +104,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_113159) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "word_memories", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "english_word_id"
+    t.bigint "japanese_word_id"
+    t.bigint "word_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["english_word_id"], name: "index_word_memories_on_english_word_id"
+    t.index ["japanese_word_id"], name: "index_word_memories_on_japanese_word_id"
+    t.index ["user_id"], name: "index_word_memories_on_user_id"
+    t.index ["word_id"], name: "index_word_memories_on_word_id"
+  end
+
   create_table "words", force: :cascade do |t|
     t.bigint "english_word_id", null: false
     t.bigint "japanese_word_id", null: false
@@ -125,6 +138,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_113159) do
   add_foreign_key "japanese_words", "users"
   add_foreign_key "posts", "genres"
   add_foreign_key "posts", "users"
+  add_foreign_key "word_memories", "english_words"
+  add_foreign_key "word_memories", "japanese_words"
+  add_foreign_key "word_memories", "users"
+  add_foreign_key "word_memories", "words"
   add_foreign_key "words", "english_words"
   add_foreign_key "words", "japanese_words"
   add_foreign_key "words", "posts"
