@@ -11,61 +11,61 @@
       <thead>
         <tr>
           <th><%= @post.genre.name %></th>
-          <th>英語</th>
-          <th>日本語</th>
+          <th>単語</th>
+          <th>意味</th>
           <th>覚えた?</th>
         </tr>
       </thead>
       <tbody>
         <!-- row -->
-         <% @words.each do |word| %>
-          <% if word.english_word.japanese_words.second.nil? && word.japanese_word.english_words.second.nil? %>
+        <% @word_meanings.each do |word_meaning| %>
+          <% if word_meaning.word.meanings.second.nil? && word_meaning.meaning.words.second.nil? %>
             <tr>
               <th></th>
               <td>
-                <% word.japanese_word.english_words.each do |en| %>
-                  <%= en.english %>
+                <% word_meaning.meaning.words.each do |word| %>
+                  <%= word.name %>
                 <% end %>
               </td>
               <td>
-                <% word.english_word.japanese_words.each do |jp| %>
-                  <%= jp.japanese %>
+                <% word_meaning.word.meanings.each do |meaning| %>
+                  <%= meaning.description %>
                 <% end %>
               </td>
               <td>
-                <%= render 'word_memories/wo_memory', wo: word.id  %>
+                <%= render 'word_memories/word_meaning_memory', word_meaning: word_meaning.id %>
               </td>
             </tr>
           <% end %>
         <% end %>
-        <% @english_words.each do |en| %>
-          <% if en.japanese_words.second.present? %>
+        <% @words.each do |word| %>
+          <% if word.meanings.second.present? %>
             <tr>
               <th></th>
-              <td><%= en.english %></td>
+              <td><%= word.name %></td>
               <td>
-                <% en.japanese_words.each do |jp| %>
-                  <%= jp.japanese %>
+                <% word.meanings.each do |mean| %>
+                  <%= mean.description %>
                 <% end %>
               </td>
               <td>
-                <%= render 'word_memories/en_memory', en: en.id  %>
+                <%= render 'word_memories/word_memory', word: word.id  %>
               </td>
               </tr>
           <% end %>
         <% end %>
-        <% @japanese_words.each do |jp| %>
-          <% if jp.english_words.second.present? %>
+        <% @meanings.each do |mean| %>
+          <% if mean.words.second.present? %>
             <tr>
               <th></th>
               <td>
-                <% jp.english_words.each do |en| %>
-                  <%= en.english %>
+                <% mean.words.each do |word| %>
+                  <%= word.name %>
                 <% end %>
               </td>
-              <td><%= jp.japanese %></td>
+              <td><%= mean.description %></td>
               <td>
-                <%= render 'word_memories/jp_memory', jp: jp.id  %>
+                <%= render 'word_memories/meaning_memory', meaning: mean.id  %>
               </td>
             </tr>
           <% end %>

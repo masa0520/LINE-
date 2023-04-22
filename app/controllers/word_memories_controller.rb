@@ -1,75 +1,75 @@
 class WordMemoriesController < ApplicationController
-  before_action :set_english
-  before_action :set_japanese
   before_action :set_word
+  before_action :set_meaning
+  before_action :set_word_meaning
   before_action :set_post
 
   def create
-    if @en_id.present?
-      current_user.word_memories.create(english_word_id: @en_id)
+    if @word_id.present?
+      current_user.word_memories.create(word_id: @word_id)
       render turbo_stream: turbo_stream.replace(
-        "en_memorized#{@en_id}",
-        partial: 'word_memories/en_memory',
-        locals: { post: @post, en: @en_id },
+        "word_memorized#{@word_id}",
+        partial: 'word_memories/word_memory',
+        locals: { post: @post, word: @word_id },
       )
-    elsif  @jp_id.present?
-      current_user.word_memories.create(japanese_word_id: @jp_id)
+    elsif @meaning_id.present?
+      current_user.word_memories.create(meaning_id: @meaning_id)
       render turbo_stream: turbo_stream.replace(
-        "jp_memorized#{@jp_id}",
-        partial: 'word_memories/jp_memory',
-        locals: { post: @post, jp: @jp_id },
+        "meaning_memorized#{@meaning_id}",
+        partial: 'word_memories/meaning_memory',
+        locals: { post: @post, meaning: @meaning_id },
       )
     else
-      current_user.word_memories.create(word_id: @wo_id)
+      current_user.word_memories.create(word_meaning_id: @word_meaning_id)
       render turbo_stream: turbo_stream.replace(
-        "memorized#{@wo_id}",
-        partial: 'word_memories/wo_memory',
-        locals: { post: @post, wo: @wo_id },
+        "word_meaning_memorized#{@word_meaning_id}",
+        partial: 'word_memories/word_meaning_memory',
+        locals: { post: @post, word_meaning: @word_meaning_id },
       )
     end
   end
 
   def destroy
-    if @en_id.present?
-      en_memory = current_user.word_memories.find_by(english_word_id: @en_id)
-      en_memory.destroy
-      render turbo_stream: turbo_stream.replace(
-        "en_memorized#{@en_id}",
-        partial: 'word_memories/en_memory',
-        locals: { post: @post, en: @en_id },
-      )
-    elsif @jp_id.present?
-      jp_memory = current_user.word_memories.find_by(japanese_word_id: @jp_id)
-      jp_memory.destroy
-      render turbo_stream: turbo_stream.replace(
-        "jp_memorized#{@jp_id}",
-        partial: 'word_memories/jp_memory',
-        locals: { post: @post, jp: @jp_id },
-      )
-    else
-      word_memory = current_user.word_memories.find_by(word_id: @wo_id)
+    if @word_id.present?
+      word_memory = current_user.word_memories.find_by(word_id: @word_id)
       word_memory.destroy
       render turbo_stream: turbo_stream.replace(
-        "memorized#{@wo_id}",
-        partial: 'word_memories/wo_memory',
-        locals: { post: @post, wo: @wo_id },
+        "word_memorized#{@word_id}",
+        partial: 'word_memories/word_memory',
+        locals: { post: @post, word: @word_id },
+      )
+    elsif @meaning_id.present?
+      meaning_memory = current_user.word_memories.find_by(meaning_id: @meaning_id)
+      meaning_memory.destroy
+      render turbo_stream: turbo_stream.replace(
+        "meaning_memorized#{@meaning_id}",
+        partial: 'word_memories/meaning_memory',
+        locals: { post: @post, meaning: @meaning_id },
+      )
+    else
+      word_meaning_memory = current_user.word_memories.find_by(word_meaning_id: @word_meaning_id)
+      word_meaning_memory.destroy
+      render turbo_stream: turbo_stream.replace(
+        "word_meaning_memorized#{@word_meaning_id}",
+        partial: 'word_memories/word_meaning_memory',
+        locals: { post: @post, word_meaning: @word_meaning_id },
       )
     end
   end
 
   private
 
-  def set_english
-    @en_id = params[:en_id].to_s
+  def set_word
+    @word_id = params[:word_id].to_s
   end
 
-  def set_japanese
-    @jp_id = params[:jp_id].to_s
+  def set_meaning
+    @meaning_id = params[:meaning_id].to_s
   end
 
   #1対１の場合
-  def set_word
-    @wo_id = params[:wo_id].to_s
+  def set_word_meaning
+    @word_meaning_id = params[:word_meaning_id].to_s
   end
 
   def set_post
