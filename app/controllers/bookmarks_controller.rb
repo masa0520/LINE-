@@ -2,7 +2,7 @@ class BookmarksController < ApplicationController
   before_action :set_post
 
   def create
-    Bookmark.create(user_id: current_user.id, post_id: @post.id)
+    current_user.bookmarks.create(post_id: @post.id)
 
     render turbo_stream: turbo_stream.replace(
       'bookmark',
@@ -12,7 +12,7 @@ class BookmarksController < ApplicationController
   end
 
   def destroy
-    bookmark = Bookmark.find_by(user_id: current_user.id, post_id: @post.id)
+    bookmark = current_user.bookmarks.find_by(post_id: @post.id)
     bookmark.destroy
 
     render turbo_stream: turbo_stream.replace(

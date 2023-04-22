@@ -21,16 +21,4 @@ class User < ApplicationRecord
     bookmark_posts.include?(post)
   end
 
-  def word_memorized?(wo)
-    WordMemory.find_by(word_id: wo.id)
-  end
-
-  def en_memorized?(en)
-    WordMemory.find_by(english_word_id: en.id)
-  end
-
-  def jp_memorized?(jp)
-    WordMemory.find_by(japanese_word_id: jp.id)
-  end
-
 end

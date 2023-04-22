@@ -49,4 +49,6 @@ genres_data = [
 ]
 
 # ジャンルレコードを作成
-Genre.create!(genres_data)
+genres_data.each do |genre_data|
+  Genre.find_or_create_by!(genre_data)
+end
