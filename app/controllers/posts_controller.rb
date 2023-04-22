@@ -32,10 +32,9 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.title.present?
-      10.times do |i|
+      Post::WORDS_AND_MEANINGS.times do |i|
         input_word = params[:name][i.to_s].split(/[[:space:]]/) if params[:name][i.to_s].present?
         input_meaning = params[:description][i.to_s].split(/[[:space:]]/) if params[:description][i.to_s].present?
-        #英語と日本語がともに存在し、かつ両方の要素が複数でなく、片方が複数である可能性を含む場合に処理を実行
         if input_word.present? && input_meaning.present? && !(input_word.length >= 2 && input_meaning.length >= 2)
          @post.save unless @post.persisted?
          input_word.each do |word|
@@ -72,10 +71,9 @@ class PostsController < ApplicationController
     @post.words.destroy_all
     @post.meanings.destroy_all
     if @post.title.present?
-      10.times do |i|
+      Post::WORDS_AND_MEANINGS.times do |i|
         input_word = params[:name][i.to_s].split(/[[:space:]]/) if params[:name][i.to_s].present?
         input_meaning = params[:description][i.to_s].split(/[[:space:]]/) if params[:description][i.to_s].present?
-        #英語と日本語がともに存在し、かつ両方の要素が複数でなく、片方が複数である可能性を含む場合に処理を実行
         if input_word.present? && input_meaning.present? && !(input_word.length >= 2 && input_meaning.length >= 2)
           @post.update(post_params) unless @post.changed?
           input_word.each do |word|

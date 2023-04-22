@@ -1,4 +1,6 @@
 class Post < ApplicationRecord
+  WORDS_AND_MEANINGS = 10
+
   belongs_to :user
   belongs_to :genre
   has_many :word_meanings, dependent: :destroy
