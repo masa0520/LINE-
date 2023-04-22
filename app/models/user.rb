@@ -9,8 +9,8 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password] }
 
   has_one_attached :image
-  has_many :japanese_words
-  has_many :english_words
+  has_many :words
+  has_many :meanings
   has_many :posts
   has_many :bookmarks, dependent: :destroy
   #user.bookmarks.map(&:post)と同義

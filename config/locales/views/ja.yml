@@ -1,14 +1,14 @@
 ja:
   defaults:
-    title: LINEで英単語
+    title: LINE単語
     login: ログイン
     logout: ログアウト
     user_new: 新規登録
     profile: プロフィール
     destroy: 削除
-    index: 英単語リスト一覧
-    my-posts: あなたの英単語リスト
-    new: 英単語作成
+    index: 単語リスト一覧
+    my-posts: あなたの単語リスト
+    new: 単語リスト作成
     edit: 編集
     bookmarks: ブックマークリスト
   users:
@@ -31,13 +31,13 @@ ja:
       title: 単語リスト作成
       submit: 作成する
     create:
-      success: 英単語リストを作成しました
-      failure: 英単語リストの作成に失敗しました
+      success: 単語リストを作成しました
+      failure: 単語リストの作成に失敗しました
     edit:
       title: 単語編集
       submit: 更新する
     update:
-      success: 英単語リストを更新しました
-      failure: 英単語リストを更新できませんでした
+      success: 単語リストを更新しました
+      failure: 単語リストを更新できませんでした
     destroy:
-      success: 英単語リストを削除しました
+      success: 単語リストを削除しました

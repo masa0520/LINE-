@@ -51,22 +51,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_035658) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
-  create_table "categories", force: :cascade do |t|
-    t.string "category", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "english_words", force: :cascade do |t|
-    t.string "english"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "post_id"
-    t.index ["post_id"], name: "index_english_words_on_post_id"
-    t.index ["user_id"], name: "index_english_words_on_user_id"
-  end
-
   create_table "genres", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -74,14 +58,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_035658) do
     t.index ["name"], name: "index_genres_on_name", unique: true
   end
 
-  create_table "japanese_words", force: :cascade do |t|
-    t.string "japanese"
+  create_table "meanings", force: :cascade do |t|
+    t.text "description"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "post_id"
-    t.index ["post_id"], name: "index_japanese_words_on_post_id"
-    t.index ["user_id"], name: "index_japanese_words_on_user_id"
+    t.index ["post_id"], name: "index_meanings_on_post_id"
+    t.index ["user_id"], name: "index_meanings_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -104,45 +88,55 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_16_035658) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  create_table "word_memories", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "english_word_id"
-    t.bigint "japanese_word_id"
-    t.bigint "word_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["english_word_id"], name: "index_word_memories_on_english_word_id"
-    t.index ["japanese_word_id"], name: "index_word_memories_on_japanese_word_id"
-    t.index ["user_id"], name: "index_word_memories_on_user_id"
-    t.index ["word_id"], name: "index_word_memories_on_word_id"
-  end
-
-  create_table "words", force: :cascade do |t|
-    t.bigint "english_word_id", null: false
-    t.bigint "japanese_word_id", null: false
+  create_table "word_meanings", force: :cascade do |t|
+    t.bigint "word_id", null: false
+    t.bigint "meaning_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "post_id"
-    t.index ["english_word_id"], name: "index_words_on_english_word_id"
-    t.index ["japanese_word_id"], name: "index_words_on_japanese_word_id"
+    t.index ["meaning_id"], name: "index_word_meanings_on_meaning_id"
+    t.index ["post_id"], name: "index_word_meanings_on_post_id"
+    t.index ["word_id"], name: "index_word_meanings_on_word_id"
+  end
+
+  create_table "word_memories", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "word_id"
+    t.bigint "meaning_id"
+    t.bigint "word_meaning_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meaning_id"], name: "index_word_memories_on_meaning_id"
+    t.index ["user_id"], name: "index_word_memories_on_user_id"
+    t.index ["word_id"], name: "index_word_memories_on_word_id"
+    t.index ["word_meaning_id"], name: "index_word_memories_on_word_meaning_id"
+  end
+
+  create_table "words", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "post_id"
     t.index ["post_id"], name: "index_words_on_post_id"
+    t.index ["user_id"], name: "index_words_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bookmarks", "posts"
   add_foreign_key "bookmarks", "users"
-  add_foreign_key "english_words", "posts"
-  add_foreign_key "english_words", "users"
-  add_foreign_key "japanese_words", "posts"
-  add_foreign_key "japanese_words", "users"
+  add_foreign_key "meanings", "posts"
+  add_foreign_key "meanings", "users"
   add_foreign_key "posts", "genres"
   add_foreign_key "posts", "users"
-  add_foreign_key "word_memories", "english_words"
-  add_foreign_key "word_memories", "japanese_words"
+  add_foreign_key "word_meanings", "meanings"
+  add_foreign_key "word_meanings", "posts"
+  add_foreign_key "word_meanings", "words"
+  add_foreign_key "word_memories", "meanings"
   add_foreign_key "word_memories", "users"
+  add_foreign_key "word_memories", "word_meanings"
   add_foreign_key "word_memories", "words"
-  add_foreign_key "words", "english_words"
-  add_foreign_key "words", "japanese_words"
   add_foreign_key "words", "posts"
+  add_foreign_key "words", "users"
 end

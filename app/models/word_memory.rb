@@ -1,7 +1,7 @@
 class WordMemory < ApplicationRecord
   belongs_to :user
-  belongs_to :english_word, optional: true
-  belongs_to :japanese_word, optional: true
+  belongs_to :word, optional: true
+  belongs_to :meaning, optional: true
   belongs_to :words, optional: true
 
   #validates :user_id, uniqueness: { scope: :english_word_id }
