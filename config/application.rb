@@ -38,5 +38,6 @@ module LINEnglish
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.hosts << "7961-60-70-168-109.ngrok-free.app"
   end
 end

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
   resources :users
   resource :profile, only: %i[show edit update]
+  post '/callback', to: 'line_bot#callback'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
