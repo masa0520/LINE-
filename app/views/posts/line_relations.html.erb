@@ -1,0 +1,11 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <div class="flex my-5">  
+    <h1 class="font-bold text-4xl"><%= t('defaults.bookmarks') %></h1>
+    <div class="ml-auto">
+      <%= render 'shared/search', q: @q, url: line_relations_posts_path %>
+    </div>
+  </div>
+   <div class="grid grid-cols-2 gap-4">
+     <%= render 'posts', posts: @line_relations  %>
+   </div>
+</div>

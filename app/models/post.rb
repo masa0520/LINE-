@@ -7,6 +7,7 @@ class Post < ApplicationRecord
   has_many :words, dependent: :destroy
   has_many :meanings, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
+  has_many :line_posts, dependent: :destroy
   
   validates :title, presence: true
 

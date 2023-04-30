@@ -2,6 +2,7 @@
   <div class="flex">
     <h1 class="font-bold text-xl flex-1"><%= @post.title %></h1>
     <div class="flex-1 flex flex-row-reverse">
+      <%= render 'line_posts/line_post', post: @post %>
       <%= render 'bookmarks/bookmark', post: @post %>
     </div>
   </div>
@@ -78,6 +79,9 @@
     <% if current_user.id == @post.user_id %>
       <%= button_to t('defaults.destroy'), post_path(@post), method: :delete, data: { turbo_confirm: '本当に削除しますか？' }, class: 'btn btn-primary' %>
       <%= link_to t('defaults.edit'), edit_post_path(@post), class: "btn btn-primary mx-2" %>
+      <% if current_user.line_relation?(@post) %>
+        <%= link_to 'line時間設定', set_time_post_path(@post), class: "btn btn-primary mx-2" %>
+      <% end %>
     <% end %>
   </div>
 </div>

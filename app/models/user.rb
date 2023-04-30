@@ -13,12 +13,18 @@ class User < ApplicationRecord
   has_many :meanings
   has_many :posts
   has_many :bookmarks, dependent: :destroy
-  #user.bookmarks.map(&:post)と同義
+  #user.bookmarks.map(&:post)と同義user.bookmarks.map(&:post)
   has_many :bookmark_posts, through: :bookmarks, source: :post
   has_many :word_memories, dependent: :destroy
+  has_many :line_posts, dependent: :destroy
+  has_many :line_relations, through: :line_posts, source: :post
   
   def bookmark?(post)
     bookmark_posts.include?(post)
+  end
+
+  def line_relation?(post)
+    line_relations.include?(post)
   end
 
 end

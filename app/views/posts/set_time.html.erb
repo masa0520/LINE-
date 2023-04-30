@@ -1,0 +1,8 @@
+<%= form_with model: @post, url: update_time_post_path(@post), method: :patch do |form| %>
+  <div class="form-group">
+    <%= form.label :set_time %>
+    <%= form.time_select :set_time, {ampm: true} %>
+  </div>
+  <%= form.submit %>
+<% end %>
+<%= link_to "戻る", @post, class: "btn btn-primary mx-2" %>

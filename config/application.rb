@@ -20,7 +20,6 @@ Bundler.require(*Rails.groups)
 
 module LINEnglish
   class Application < Rails::Application
-    config.encoding = "utf-8"
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
@@ -39,6 +38,11 @@ module LINEnglish
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    config.hosts << "7961-60-70-168-109.ngrok-free.app"
+    config.hosts << "https://237e-60-70-168-109.ngrok-free.app"
+
+    config.autoload_paths += Dir["#{config.root}/lib"]
+
+    #この記述をするとするとuninitialized constantエラーが発生する
+    #config.eager_load_paths += Dir["#{config.root}/lib/**/"]
   end
 end

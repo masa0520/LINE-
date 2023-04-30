@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     resource :bookmarks, only: %i[create destroy]
     get 'bookmarks', on: :collection
     resource :word_memories, only: %i[create destroy]
+    resource :line_posts, only: %i[create destroy]
+    get 'line_relations', on: :collection
+    get 'set_time', on: :member
+    patch 'update_time', on: :member
   end
   resources :users
   resource :profile, only: %i[show edit update]
