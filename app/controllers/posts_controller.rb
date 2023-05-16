@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :set_post, only: %i[ show edit update destroy set_time update_time]
   before_action :set_search, only: %I[ index my_posts ]
 
   # GET /posts
@@ -118,6 +118,22 @@ class PostsController < ApplicationController
     @bookmark_posts = @q.result.order(created_at: :desc)
   end
 
+  def line_relations
+    @q = current_user.line_relations.ransack(params[:q])
+    @line_relations = @q.result.order(created_at: :desc)
+  end
+
+  def set_time
+    @line_post = current_user.line_posts.find_by(post_id: @post)
+  end
+
+  def update_time
+    @line_post = current_user.line_posts.find_by(post_id: @post)
+    if @line_post.update(line_post_params)
+      redirect_to @post, notice: 'ライン通知の時間を設定しました'
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -127,6 +143,10 @@ class PostsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:title, :user_id, :genre_id)
+    end
+
+    def line_post_params
+      params.require(:line_post).permit(:set_time)
     end
 
     def set_search

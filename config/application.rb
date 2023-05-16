@@ -38,5 +38,11 @@ module LINEnglish
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.hosts << "https://237e-60-70-168-109.ngrok-free.app"
+
+    config.autoload_paths += Dir["#{config.root}/lib"]
+
+    #この記述をするとするとuninitialized constantエラーが発生する
+    #config.eager_load_paths += Dir["#{config.root}/lib/**/"]
   end
 end

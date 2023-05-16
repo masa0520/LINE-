@@ -11,6 +11,7 @@ ja:
     new: 単語リスト作成
     edit: 編集
     bookmarks: ブックマークリスト
+    line_relations: LINE連携
   users:
     new:
       title: 新規登録

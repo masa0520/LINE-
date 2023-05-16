@@ -1,0 +1,2 @@
+module LinePostsHelper
+end
