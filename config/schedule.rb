@@ -31,17 +31,12 @@ job_type :runner, "export PATH=\"$HOME/.rbenv/bin:$PATH\"; eval \"$(rbenv init -
 # rakeタスク内で日本語を扱う場合(?)、これがないと`encoding::UndefinedConversionError`が発生する
 env 'LANG', 'ja_JP.UTF-8'
 
-#User.all.each do |user|
-#  LinePost.where(user_id: user.id).each do |line_post|
-#    if line_post.set_time.present?
-#      every 1.day, at: line_post.set_time.strftime("%I:%M %p") do
-#        runner "LineBot::LineMessage.send_message"
-#      end
-#    end
-#  end
-#end
-
-      every 1.minute do
+User.all.each do |user|
+  LinePost.where(user_id: user.id).each do |line_post|
+    if line_post.set_time.present?
+      every 1.day, at: line_post.set_time.strftime("%I:%M %p") do
         runner "LineBot::LineMessage.send_message"
       end
-
+    end
+  end
+end

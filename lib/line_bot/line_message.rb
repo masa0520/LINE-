@@ -7,7 +7,7 @@ class LineBot::LineMessage
     
     User.all.each do |user|
       LinePost.where(user_id: user.id).each do |line_post|
-        #if line_post.set_time.strftime("%H:%M") == Time.current.strftime("%H:%M")
+        if line_post.set_time.strftime("%H:%M") == Time.current.strftime("%H:%M")
           view_url = ENV['APP_URL']
           message = {
             type: 'text',
@@ -16,7 +16,7 @@ class LineBot::LineMessage
             }.join("\n") + "\n#{view_url}/#{line_post.post_id}"
           }
           response = client.push_message(user.line_id, message)
-        #end
+        end
       end
     end
   end
