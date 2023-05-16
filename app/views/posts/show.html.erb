@@ -79,9 +79,9 @@
     <% if current_user.id == @post.user_id %>
       <%= button_to t('defaults.destroy'), post_path(@post), method: :delete, data: { turbo_confirm: '本当に削除しますか？' }, class: 'btn btn-primary' %>
       <%= link_to t('defaults.edit'), edit_post_path(@post), class: "btn btn-primary mx-2" %>
-      <% if current_user.line_relation?(@post) %>
-        <%= link_to 'line時間設定', set_time_post_path(@post), class: "btn btn-primary mx-2" %>
-      <% end %>
+    <% end %>
+    <% if current_user.line_posts.find_by(post_id: @post.id) %>
+      <%= link_to 'line時間設定', set_time_post_path(@post), class: "btn btn-primary mx-2" %>
     <% end %>
   </div>
 </div>

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  post "oauth/callback", to: "oauths#callback"
+  get "oauth/callback", to: "oauths#callback"
+  get "oauth/:provider", to: "oauths#oauth", as: :auth_at_provider
   get 'login' => 'user_sessions#new', :as => :login
   post 'login' => "user_sessions#create"
   post 'logout' => 'user_sessions#destroy', :as => :logout

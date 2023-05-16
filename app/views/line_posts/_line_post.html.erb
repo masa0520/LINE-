@@ -1,7 +1,11 @@
 <% if current_user.line_relation?(post) %>
   <turbo-frame id="line_post">
-    <%= button_to 'LINE連携済み', post_line_posts_path(post), method: :delete %>
+    <%= button_to 'LINE連携を解除', post_line_posts_path(post), method: :delete %>
   </turbo-frame>
 <% else %>
+  <% if current_user.line_id.present? %>
     <%= button_to 'LINE連携する', post_line_posts_path(post), method: :post %>
+  <% else %>
+    <%= link_to 'LINE連携する', auth_at_provider_path(provider: :line) %>
+  <% end %>
 <% end %>

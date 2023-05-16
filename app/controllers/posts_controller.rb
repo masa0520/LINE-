@@ -123,10 +123,13 @@ class PostsController < ApplicationController
     @line_relations = @q.result.order(created_at: :desc)
   end
 
-  def set_time; end
+  def set_time
+    @line_post = current_user.line_posts.find_by(post_id: @post)
+  end
 
   def update_time
-    if @post.update(post_params)
+    @line_post = current_user.line_posts.find_by(post_id: @post)
+    if @line_post.update(line_post_params)
       redirect_to @post, notice: 'ライン通知の時間を設定しました'
     end
   end
@@ -139,7 +142,7 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :user_id, :genre_id, :set_time)
+      params.require(:post).permit(:title, :user_id, :genre_id)
     end
 
     def line_post_params
