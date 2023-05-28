@@ -1,4 +1,4 @@
-<div class="mx-auto md:w-2/3 w-full">
+<div class="mx-auto md:w-4/5 w-full">
   <div class="flex my-5">  
     <h1 class="font-bold text-4xl"><%= t('defaults.line_relations') %></h1>
     <div class="ml-auto">
@@ -8,4 +8,5 @@
    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
      <%= render 'posts', posts: @line_relations  %>
    </div>
+   <%= paginate @line_relations %>
 </div>

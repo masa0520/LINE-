@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = @q.result.order(created_at: :desc)
+    @posts = @q.result.order(created_at: :desc).page(params[:page])
   end
 
   # GET /posts/1
@@ -110,17 +110,17 @@ class PostsController < ApplicationController
   end
 
   def my_posts
-    @my_posts = @q.result.where(user_id: current_user.id).order(created_at: :desc)
+    @my_posts = @q.result.where(user_id: current_user.id).order(created_at: :desc).page(params[:page])
   end
 
   def bookmarks
     @q = current_user.bookmark_posts.ransack(params[:q])
-    @bookmark_posts = @q.result.order(created_at: :desc)
+    @bookmark_posts = @q.result.order(created_at: :desc).page(params[:page])
   end
 
   def line_relations
     @q = current_user.line_relations.ransack(params[:q])
-    @line_relations = @q.result.order(created_at: :desc)
+    @line_relations = @q.result.order(created_at: :desc).page(params[:page])
   end
 
   def set_time
