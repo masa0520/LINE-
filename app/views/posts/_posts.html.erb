@@ -1,18 +1,18 @@
 <% posts.each do |post| %>
   <%= link_to post_path(post) do %>
-    <div class= "card w-96 bg-base-300 text-neutral-content">
+    <div class= "card w-full bg-base-300 text-neutral-content">
       <div class="card-body">
         <h2 class="card-title"><%= post.title %></h2>
-        <div class="flex">
-          <div class="w-10 rounded-full ring overflow-hidden">
+          <div class="w-10 h-10 rounded-full ring overflow-hidden">
             <% if post.user.image.present? %>
-              <%= image_tag post.user.image, class: 'object-contain h-full w-full' %>
+              <%= image_tag post.user.image, class: 'object-cover w-full h-full rounded-full' %>
             <% else %>
-              <%= image_tag 'profile.png', class: 'object-contain h-full w-full' %>
+              <%= image_tag 'profile.png', class: 'object-cover w-full h-full rounded-full' %>
             <% end %>
-          </div>
-          <p class="mx-4"><%= created(post) %></p>
-          <p class="mx-4"><%= post.genre.name %></p>
+        </div>
+        <div class="flex">
+            <p class="mx-4"><%= created(post) %></p>
+            <p class="mx-4"><%= post.genre.name %></p>
         </div>
       </div>
     </div>

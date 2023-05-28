@@ -5,7 +5,7 @@
       <%= render 'shared/search', q: @q, url: bookmarks_posts_path %>
     </div>
   </div>
-   <div class="grid grid-cols-2 gap-4">
+   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
      <%= render 'posts', posts: @bookmark_posts %>
    </div>
 </div>
