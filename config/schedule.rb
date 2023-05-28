@@ -36,7 +36,7 @@ User.all.each do |user|
     if line_post.set_time.present?
       every 1.day, at: line_post.set_time.strftime("%I:%M %p") do
         runner "LineBot::LineMessage.send_message"
-      end
+      end  
     end
   end
 end
